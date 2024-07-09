@@ -15,8 +15,6 @@ Features:
 * User Interface: Provides a simple yet effective UI displaying recognized faces with their identified name (if available), age group, and gender.
 
 
-Output:
-
 
 
 
