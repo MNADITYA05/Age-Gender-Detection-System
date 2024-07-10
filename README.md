@@ -15,6 +15,17 @@ Features:
 * User Interface: Provides a simple yet effective UI displaying recognized faces with their identified name (if available), age group, and gender.
 
 
+OUTPUT:
+
+
+
+
+
+
+
+
+
+![WhatsApp Image 2024-07-10 at 06 56 15](https://github.com/MNADITYA05/SAMHITA_HACKATHON_PROJECT/assets/155892517/df847942-fdbc-4bff-80ba-be55ebc5a840)
 
 
 
