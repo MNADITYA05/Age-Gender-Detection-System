@@ -10,27 +10,22 @@ reference_image2 = face_recognition.load_image_file("K.jpg")
 reference_face_encodings2 = face_recognition.face_encodings(reference_image2)
 name2 = "K" if reference_face_encodings2 else None
 
-
-# Function to estimate age group based on face detection
+# Function to estimate age group based on face width
 def estimate_age_group(face_location):
-    # Calculate the width of the face bounding box
     face_width = face_location[1] - face_location[3]
+    return "Young" if face_width > 150 else "Old"
 
-    # Use age thresholds to classify into young and old
-    if face_width > 150:
-        return "Young"
-    else:
-        return "Old"
-
-
-# Open the default camera (you can specify a different camera index if needed)
+# Open the default camera
 cap = cv2.VideoCapture(0)
 
 while True:
     # Read a frame from the camera
     ret, frame = cap.read()
 
-    # Convert the frame to RGB (face_recognition uses RGB format)
+    if not ret:
+        break
+
+    # Convert the frame to RGB
     rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
     # Find all face locations in the frame
@@ -51,35 +46,25 @@ while True:
     face_encodings = face_recognition.face_encodings(rgb_frame, face_locations)
 
     # Iterate through each face encoding and check if it matches the reference face encodings
-    for face_encoding in face_encodings:
-        # Compare the current face encoding with both reference face encodings
-        if name1 is not None:
-            match1 = face_recognition.compare_faces(reference_face_encodings1, face_encoding)
-        else:
-            match1 = []
+    for face_encoding, face_location in zip(face_encodings, face_locations):
+        match1 = face_recognition.compare_faces(reference_face_encodings1, face_encoding) if name1 else []
+        match2 = face_recognition.compare_faces(reference_face_encodings2, face_encoding) if name2 else []
 
-        if name2 is not None:
-            match2 = face_recognition.compare_faces(reference_face_encodings2, face_encoding)
-        else:
-            match2 = []
-
-        # If a match is found with either reference image, assign the corresponding name
         if any(match1):
             name = name1
         elif any(match2):
             name = name2
         else:
-            name = "Unknown"  # If no match is found
+            name = "Unknown"
 
         # Get the estimated age group
-        age_group = estimate_age_group(face_locations[0])  # Assuming only one face is detected
+        age_group = estimate_age_group(face_location)
 
-        # Draw a rectangle around the recognized face
-        for (top, right, bottom, left) in face_locations:
-            cv2.rectangle(frame, (left, top), (right, bottom), (0, 255, 0), 2)
-            cv2.putText(frame, name, (left + 6, bottom - 6), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
-            cv2.putText(frame, f"Age Group: {age_group}", (left + 6, bottom + 20),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+        # Draw a rectangle around the recognized face and display the name and age group
+        top, right, bottom, left = face_location
+        cv2.rectangle(frame, (left, top), (right, bottom), (0, 255, 0), 2)
+        cv2.putText(frame, name, (left + 6, bottom - 6), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+        cv2.putText(frame, f"Age Group: {age_group}", (left + 6, bottom + 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
     # Display the resulting frame
     cv2.imshow('Face Recognition', frame)
