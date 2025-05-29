@@ -86,6 +86,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- **Documentation**: [Wiki](https://github.com/yourusername/face-detection-system/wiki)
-- **Issues**: [GitHub Issues](https://github.com/yourusername/face-detection-system/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/face-detection-system/discussions)
+- **Documentation**: [Wiki](https://github.com/MNADITYA05/Age-Gender-Detection-System/wiki)
+- **Issues**: [GitHub Issues](https://github.com/MNADITYA05/Age-Gender-Detection-System/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/MNADITYA05/Age-Gender-Detection-System/discussions)
